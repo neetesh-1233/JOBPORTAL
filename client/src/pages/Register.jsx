@@ -1,11 +1,12 @@
-
-import React, { useState } from "react"
+import React, { useState } from "react";
 import toast from "react-hot-toast";
+import api from "../config/api";
 
-const Register = () => {
+const Register = () => { 
   const [registerData, setRegisterData] = useState({
     fullName: "",
     email: "",
+    phone: "",
     password: "",
     confirmPassword: "",
   });
@@ -29,6 +30,14 @@ const Register = () => {
 
     if (!/^[A-Za-z ]+$/.test(registerData.fullName)) {
       err.fullName = "Only Alphabets are allowed";
+      isvalid = false;
+    }
+
+    if (
+      !/^[6-9]\d{9}$/.test(registerData.phone) ||
+      registerData.phone.length !== 10
+    ) {
+      err.phone = "Please enter a valid Phone Number";
       isvalid = false;
     }
 
@@ -58,7 +67,7 @@ const Register = () => {
 
     return isvalid;
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -69,22 +78,40 @@ const Register = () => {
       return;
     }
 
-    setTimeout(() => {
-      console.log(registerData);
-      setRegisterData({
+  //   setTimeout(() => {
+  //     console.log(registerData);
+  //     setRegisterData({
+  //       fullName: "",
+  //       email: "",
+  //       password: "",
+  //       confirmPassword: "",
+  //     });
+  //     setLoading(false);
+  //     toast.success("Registration Sucessfull");
+  //   }, 2000); // 2 seconds
+  // };
+
+  try {
+    const res = await api.post("/auth/register",registerData);
+    toast.success(res.data.message);
+    setRegisterData({
         fullName: "",
         email: "",
+        phone: "",
         password: "",
         confirmPassword: "",
       });
+  } catch (error) {
+    console.log(error);
+    toast.error(`Error:${error.response?.status}|${error.response?.data?.message}`);
+  }finally {
       setLoading(false);
-      toast.success("Registration Sucessfull");
-    }, 2000); // 2 seconds
+    }
   };
 
   return (
     <>
-       <div className="bg-gray-200 min-h-screen flex items-center justify-center">
+      <div className="bg-gray-200 min-h-screen flex items-center justify-center">
         <div className="min-w-md border rounded shadow bg-white py-10 px-4 space-y-10">
           <h1 className="text-center text-xl">Register to JobPortal</h1>
           <form className="space-y-6" onSubmit={handleSubmit}>
@@ -109,6 +136,28 @@ const Register = () => {
                 </p>
               )}
             </div>
+             <div>
+              <div>
+                <label htmlFor="phone" className="w-1/4 inline-block">
+                  Phone:
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  id="phone"
+                  value={registerData.phone}
+                  onChange={handleChange}
+                  className=" w-3/4 border p-2 rounded focus:ring-2  focus:ring-blue-500 focus:outline-none"
+                  placeholder="9876543210"
+                />
+              </div>
+              {error.phone && (
+                <p className="text-center text-red-500 text-sm">
+                  {error.phone}
+                </p>
+              )}
+            </div>
+
             <div>
               <div>
                 <label htmlFor="email" className="w-1/4 inline-block">
@@ -180,7 +229,7 @@ const Register = () => {
             </button>
           </form>
         </div>
-      </div> 
+      </div>
     </>
   );
 };

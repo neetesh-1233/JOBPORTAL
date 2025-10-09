@@ -3,3 +3,11 @@
 *scroll-bar-width{
     display: none;
 }
+
+:root {
+  --primary:  #393E46;
+  --secondary: #222222;
+  --tertiary: #007074;
+  --text: #F38C79;
+  --background: #98D2C0;
+}
