@@ -5,9 +5,13 @@ import { FcCamera } from "react-icons/fc";
 import UpdateProfileModal from "./updateProfileModal";
 import api from "../../config/api";
 import toast from "react-hot-toast";
-// Basic profile redesign (lightweight)
+import { useAuth } from "../../context/AuthContext";
+
+
+
+
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useAuth();
   const [loading, setLoading] = useState(true);
 
   const [isUpdateModalOpen, setUpdateModalOpen] = useState(false);
@@ -27,6 +31,7 @@ const Profile = () => {
       });
       toast.success(res.data.message);
       sessionStorage.setItem("userData", JSON.stringify(res.data.data));
+      setUser(res.data.data);
       setPreview("");
     } catch (error) {
       console.log(error);
@@ -41,15 +46,9 @@ const Profile = () => {
   };
 
   useEffect(() => {
-    try {
-      const data = JSON.parse(sessionStorage.getItem("userData"));
-      setUser(data || null);
-    } catch (e) {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  }, []);
+    setLoading(!user);
+
+  }, [user]);
 
   if (loading) {
     return (

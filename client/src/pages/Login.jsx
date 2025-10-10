@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import api from "../config/api";
 import toast from "react-hot-toast";
 import { Link , useNavigate} from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
+  const { setUser, setIsLogin, setIsrecruiter } = useAuth();
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -11,6 +13,7 @@ const Login = () => {
   });
 
   const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setLoginData((prev) => ({ ...prev, [name]: value }));
@@ -23,11 +26,14 @@ const Login = () => {
       const res = await api.post("/auth/login", loginData);
       toast.success(res.data.message);
       sessionStorage.setItem("userData", JSON.stringify(res.data.data));
+      setUser(res.data.data);
+      setIsLogin(true);
+      setIsrecruiter(res.data.data.role === "recruiter");
       setLoginData({
         email: "",
         password: "",
       });
-      navigate("/userDashboard");
+      res.data.data.role === "recruiter" ? navigate("/recruiterDashboard") : navigate("/userDashboard");
     } catch (error) {
       console.log(error);
       toast.error(

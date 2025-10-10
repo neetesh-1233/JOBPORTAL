@@ -58,7 +58,7 @@ const SideBar = ({ active, setActive }) => {
         <div>
           <h1 className="text-lg border-b-2 border-[var(--background)] text-center text-[var(--text)] font-bold">
             {" "}
-            User Dashbaord
+            Recruiter Dashbaord
           </h1>
 
           <div>

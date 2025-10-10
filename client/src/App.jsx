@@ -10,6 +10,7 @@ import Jobs from "./pages/Jobs";
 
 import { Toaster } from "react-hot-toast";
 import UserDashboard from "./pages/userDashboard";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ const App = () => {
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path={"/userdashboard"} element={< UserDashboard/>} />
+          {<Route path={"/recruiterdashboard"} element={< RecruiterDashboard/>} />}
         </Routes>
       </BrowserRouter>
     </>

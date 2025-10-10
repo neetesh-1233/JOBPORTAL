@@ -4,9 +4,9 @@ import { genAuthToken } from "../utils/token.js";
 
 export const Register = async(req,res,next)=>{
     try {
-           const { email, phone, fullName, password } = req.body;
+           const { email, phone, fullName, password ,role} = req.body;
 
-    if (!fullName || !email || !password || !phone) {
+    if (!fullName || !email || !password || !phone || !role) {
       const error = new Error("All Fields Required");
       error.statusCode = 400;
       return next(error);
@@ -31,6 +31,7 @@ export const Register = async(req,res,next)=>{
       phone,
       photo,
       password: hashedPassword,
+      role,
     });
 
     res

@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 import api from "../config/api";
+import { useNavigate } from "react-router-dom";
 
-const Register = () => { 
+const Register = () => {
+  const navigate = useNavigate();
   const [registerData, setRegisterData] = useState({
     fullName: "",
     email: "",
     phone: "",
+    role : "",
     password: "",
     confirmPassword: "",
   });
@@ -22,6 +25,11 @@ const Register = () => {
   const Validate = () => {
     let isvalid = true;
     const err = {};
+
+    if (!registerData.role) {
+      err.role = "Please Select a Role";
+      isvalid = false;
+    }
 
     if (registerData.fullName.length < 3) {
       err.fullName = "Name should be of Atlest 3 Characters";
@@ -67,7 +75,7 @@ const Register = () => {
 
     return isvalid;
   };
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError("");
@@ -78,33 +86,36 @@ const Register = () => {
       return;
     }
 
-  //   setTimeout(() => {
-  //     console.log(registerData);
-  //     setRegisterData({
-  //       fullName: "",
-  //       email: "",
-  //       password: "",
-  //       confirmPassword: "",
-  //     });
-  //     setLoading(false);
-  //     toast.success("Registration Sucessfull");
-  //   }, 2000); // 2 seconds
-  // };
+    //   setTimeout(() => {
+    //     console.log(registerData);
+    //     setRegisterData({
+    //       fullName: "",
+    //       email: "",
+    //       password: "",
+    //       confirmPassword: "",
+    //     });
+    //     setLoading(false);
+    //     toast.success("Registration Sucessfull");
+    //   }, 2000); // 2 seconds
+    // };
 
-  try {
-    const res = await api.post("/auth/register",registerData);
-    toast.success(res.data.message);
-    setRegisterData({
+    try {
+      const res = await api.post("/auth/register", registerData);
+      toast.success(res.data.message);
+      setRegisterData({
         fullName: "",
         email: "",
         phone: "",
         password: "",
         confirmPassword: "",
       });
-  } catch (error) {
-    console.log(error);
-    toast.error(`Error:${error.response?.status}|${error.response?.data?.message}`);
-  }finally {
+      navigate("/login");
+    } catch (error) {
+      console.log(error);
+      toast.error(
+        `Error:${error.response?.status}|${error.response?.data?.message}`
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -115,6 +126,25 @@ const Register = () => {
         <div className="min-w-md border rounded shadow bg-white py-10 px-4 space-y-10">
           <h1 className="text-center text-xl">Register to JobPortal</h1>
           <form className="space-y-6" onSubmit={handleSubmit}>
+
+             <div>
+              <div className="flex">
+                <label htmlFor="role" className="w-1/4 inline-block">
+                  Role:
+                </label>
+                <div className=" w-3/4 border p-2 rounded focus:ring-2  focus:ring-blue-500 focus:outline-none gap-x-2">
+                  <input type="radio" name="role" id="applicant" value={"applicant"} onChange={handleChange} />
+                <label htmlFor="applicant">Applicant</label>
+                <input type="radio" name="role" id="recruiter" value={"recruiter"} onChange={handleChange} />
+                <label htmlFor="recruiter">Recruiter</label>
+                </div>
+              </div>
+              {error.role && (
+                <p className="text-center text-red-500 text-sm">
+                  {error.role}
+                </p>
+              )}
+            </div>
             <div>
               <div>
                 <label htmlFor="fullName" className="w-1/4 inline-block">
@@ -136,7 +166,7 @@ const Register = () => {
                 </p>
               )}
             </div>
-             <div>
+            <div>
               <div>
                 <label htmlFor="phone" className="w-1/4 inline-block">
                   Phone:
