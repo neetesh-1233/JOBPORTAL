@@ -2,11 +2,14 @@ import React from "react";
 import { FcHome, FcManager, FcDocument } from "react-icons/fc";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import toast from 'react-hot-toast';
+import api from '../../config/api';
 
 const navItems = [
   { value: "overview", text: "Overview", icons: <FcHome /> },
   { value: "profile", text: "Profile", icons: <FcManager /> },
   { value: "application", text: "Application", icons: <FcDocument /> },
+  { value: "jobs", text: "jobs", icons: <FcDocument /> },
 ];
 
 const SideBar = ({ active, setActive }) => {

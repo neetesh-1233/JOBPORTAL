@@ -3,6 +3,7 @@ import SideBar from "../components/recruiterDashboard/Sidebar";
 import OverView from "../components/recruiterDashboard/Overview";
 import Profile from "../components/recruiterDashboard/Profile";
 import Application from "../components/recruiterDashboard/Application";
+import Jobs from "../components/recruiterDashboard/Jobs";
 
 const RecruiterDashboard = () => {
   const [active, setActive] = useState("overview");
@@ -16,6 +17,7 @@ const RecruiterDashboard = () => {
           {active === "overview" && <OverView />}
           {active === "profile" && <Profile />}
           {active === "application" && <Application />}
+          {active === "jobs" && <Jobs />}
         </div>
       </div>
     </>
