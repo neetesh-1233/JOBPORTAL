@@ -3,6 +3,7 @@ import SideBar from "../components/userDashboard/Sidebar";
 import OverView from "../components/userDashboard/Overview";
 import Profile from "../components/userDashboard/Profile";
 import Application from "../components/userDashboard/Application";
+import ForgetPassword from './ForgetPassword';
 
 const UserDashboard = () => {
   const [active, setActive] = useState("overview");

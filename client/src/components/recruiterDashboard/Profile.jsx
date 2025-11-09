@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { RxLinkedinLogo, RxGithubLogo, RxInstagramLogo } from "react-icons/rx";
 import { RiTwitterXLine } from "react-icons/ri";
+import { TbWorldWww } from "react-icons/tb";
 import { FcCamera } from "react-icons/fc";
 import UpdateProfileModal from "./updateProfileModal";
 import api from "../../config/api";
@@ -84,16 +85,17 @@ const Profile = () => {
   }
 
   const statItems = [
-    { label: "Gender", value: user.gender || "N/A" },
-    { label: "DOB", value: user.dob || "N/A" },
     { label: "Email", value: user.email || "N/A" },
-    { label: "Contact", value: user.Contact || "N/A" },
+    { label: "Phone", value: user.phone || "N/A" },
+    { label: "Gender", value: user.gender.toUpperCase() || "N/A" },
+    { label: "DOB", value: user.dob || "N/A" },
   ];
 
   return (
-    <>
-      <div className="h-full bg-gray-50 py-8 px-4">
+     <>
+      <div className="bg-gray-50 py-8 px-4">
         <div className="max-w-5xl mx-auto space-y-8">
+          {/* Header Card */}
           <div className="bg-white border border-gray-200 shadow-sm rounded-2xl p-6 md:p-8 flex flex-col md:flex-row md:items-center gap-6">
             <div className="flex-shrink-0">
               <div className="relative w-32 h-32">
@@ -125,7 +127,7 @@ const Profile = () => {
                     {user.fullName}
                   </h1>
                   <p className="text-sm text-gray-500 mt-1">
-                    Job Seeker Profile
+                    Recruiter Profile
                   </p>
                 </div>
                 <div>
@@ -140,13 +142,13 @@ const Profile = () => {
                   </button>
                 </div>
               </div>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="flex justify-around">
                 {statItems.map((s) => (
                   <div
                     key={s.label}
-                    className="bg-gray-100 rounded-lg px-3 py-3 text-center"
+                    className="bg-gray-100 rounded-lg min-w-40 px-3 py-3 flex flex-col justify-center items-center "
                   >
-                    <div className="text-xs uppercase tracking-wide text-gray-500 font-medium">
+                    <div className="text-xs uppercase text-gray-500 font-medium">
                       {s.label}
                     </div>
                     <div className="text-sm font-semibold text-[var(--primary)] mt-1">
@@ -158,34 +160,38 @@ const Profile = () => {
             </div>
           </div>
 
+          {/* Details Grid */}
           <div className="grid md:grid-cols-3 gap-6">
             <div className="md:col-span-2 space-y-6">
-
               <section className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                 <h2 className="text-lg font-semibold text-[var(--primary)] mb-4">
-                  Skills
+                  {user.companyName}
                 </h2>
-                {user.skills ? (
-                  <div className="flex flex-wrap gap-2">
-                    {user.skills.split(",").map((sk) => (
-                      <span
-                        key={sk.trim()}
-                        className="px-3 py-1 text-xs font-medium bg-gray-100 text-[var(--primary)] rounded-full"
-                      >
-                        {sk.trim()}
-                      </span>
-                    ))}
+                <h3 className="text-md  text-[var(--secondary)] mb-4">
+                  {user.companyDetail}
+                </h3>
+                <div className="flex justify-between text-sm">
+                  <div className="flex gap-5">
+                    <span className="text-[var(--secondary)]">
+                      Company Since:
+                    </span>
+                    <span>{user.companySince}</span>
                   </div>
-                ) : (
-                  <p className="text-sm text-gray-500">No skills provided.</p>
-                )}
+                  <div className="flex gap-5">
+                    <span className="text-[var(--secondary)]">
+                      Total Employees:
+                    </span>
+                    <span>{user.companyEmployees}</span>
+                  </div>
+                </div>
               </section>
               <section className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                 <h2 className="text-lg font-semibold text-[var(--primary)] mb-4">
-                  Bio
+                  Company Description
                 </h2>
                 <p className="text-sm text-gray-600 leading-relaxed">
-                  {user.bio || "This user hasn't added a summary yet."}
+                  {user.companyDescription ||
+                    "This user hasn't added a summary yet."}
                 </p>
               </section>
             </div>
@@ -193,26 +199,26 @@ const Profile = () => {
             <div className="space-y-6">
               <section className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                 <h2 className="text-lg font-semibold text-[var(--primary)] mb-4">
-                  Company Contact
+                  Official Contact
                 </h2>
                 <ul className="space-y-2 text-sm text-gray-600">
                   <li>
                     <span className="font-medium text-[var(--primary)]">
-                       Email:
+                      Email:
                     </span>{" "}
-                    {user.email}
+                    {user.companyEmail}
                   </li>
                   <li>
                     <span className="font-medium text-[var(--primary)]">
                       Phone:
                     </span>{" "}
-                    {user.phone || "N/A"}
+                    {user.companyPhone || "N/A"}
                   </li>
                   <li>
                     <span className="font-medium text-[var(--primary)]">
                       Address:
                     </span>{" "}
-                    {user.address || "N/A"}
+                    {user.companyAddress || "N/A"}
                   </li>
                 </ul>
               </section>
@@ -233,12 +239,12 @@ const Profile = () => {
                   </li>
                   <li>
                     <a
-                      href={user.github || "#"}
+                      href={user.companyWebsite || "#"}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="hover:text-black text-[var(--secondary)] text-lg"
                     >
-                      <RxGithubLogo />
+                      <TbWorldWww />
                     </a>
                   </li>
                   <li>

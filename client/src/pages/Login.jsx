@@ -3,6 +3,8 @@ import api from "../config/api";
 import toast from "react-hot-toast";
 import { Link , useNavigate} from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import ForgetPassword from "../pages/ForgetPassword";
+
 
 const Login = () => {
   const { setUser, setIsLogin, setIsrecruiter } = useAuth();
@@ -12,6 +14,7 @@ const Login = () => {
     password: "",
   });
 
+  const [forgetPasswordModal, setForgetPasswordModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -91,6 +94,18 @@ const Login = () => {
               />
             </div>
 
+            <div className="text-right">
+              <button
+                className="text-blue-600 hover:underline"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setForgetPasswordModal(true);
+                }}
+              >
+                Forgot Password?
+              </button>
+            </div>
+
             <button
               type="submit"
               className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-green-700 transition duration-200 font-semibold"
@@ -107,6 +122,10 @@ const Login = () => {
           </div>
         </div>
       </div>
+         <ForgetPassword
+        isOpen={forgetPasswordModal}
+        onClose={() => setForgetPasswordModal(false)}
+      />
     </>
   );
 };

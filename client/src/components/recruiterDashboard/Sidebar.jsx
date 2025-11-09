@@ -2,6 +2,7 @@ import React from "react";
 import { FcHome, FcManager, FcDocument } from "react-icons/fc";
 import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { GiSuitcase } from "react-icons/gi";
 import toast from 'react-hot-toast';
 import api from '../../config/api';
 
@@ -9,7 +10,7 @@ const navItems = [
   { value: "overview", text: "Overview", icons: <FcHome /> },
   { value: "profile", text: "Profile", icons: <FcManager /> },
   { value: "application", text: "Application", icons: <FcDocument /> },
-  { value: "jobs", text: "jobs", icons: <FcDocument /> },
+  { value: "jobs", text: "jobs", icons: <GiSuitcase /> },
 ];
 
 const SideBar = ({ active, setActive }) => {
@@ -57,7 +58,7 @@ const SideBar = ({ active, setActive }) => {
   };
   return (
     <>
-      <div className="bg-gradient-to-b from-[var(--primary)]  to-[var(--secondary)] h-full p-2 flex flex-col justify-between">
+      <div className="bg-gradient-to-b from-[var(--primary)]  to-[var(--bacground)] h-full p-2 flex flex-col justify-between">
         <div>
           <h1 className="text-lg border-b-2 border-[var(--background)] text-center text-[var(--text)] font-bold">
             {" "}

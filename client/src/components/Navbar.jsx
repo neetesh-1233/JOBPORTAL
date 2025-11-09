@@ -25,7 +25,7 @@ const Navbar = () => {
 
   return (
     <>
-      <div className="bg-[var(--tertiary)]  p-3 flex justify-between text-white sticky top-0 z-100">
+      <div className="bg-[var(--text)]  p-3 flex justify-between text-white sticky top-0 z-100">
         <h1 className="text-2xl font-bold">Job Portal</h1>
         <div className="space-x-5 hidden md:flex items-center">
           <Link to={"/about"} className="hover:text-amber-300 hover:border-b-2">
